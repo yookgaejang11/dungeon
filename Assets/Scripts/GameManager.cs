@@ -6,6 +6,27 @@ public enum EquipmentType
     weapon,
     cloth
 }
+public enum effectType
+{
+    strUp, defUp, critUp, avdUp,
+    skillDmgUp,
+    stun,
+    canNotUseSkill
+}
+
+public class effect
+{
+    public effectType type;
+    public float value;
+    public int duration;
+
+    public effect(effectType type, float value, int duration)
+    {
+        this.type = type;
+        this.value = value;
+        this.duration = duration;
+    }
+}
 
 public class Item
 {
@@ -120,6 +141,14 @@ public static class EquipmentData
 
 public class GameManager : MonoBehaviour
 {
+
+    public static GameManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
