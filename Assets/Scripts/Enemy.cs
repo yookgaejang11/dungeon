@@ -17,7 +17,7 @@ public class Enemy : Unit
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        curHp = maxHp;
     }
 
     // Update is called once per frame
@@ -51,11 +51,12 @@ public class Enemy : Unit
         {
 
         }
-        else
+        else 
         {
-            Attack(this, GameObject.FindAnyObjectByType<Player>(), CurculateStr());
+            Attack(this, GameObject.FindAnyObjectByType<Player>(),1);
         }
 
         actionCount -= 1;
+        TurnManager.instance.NextTurn();
     }
 }

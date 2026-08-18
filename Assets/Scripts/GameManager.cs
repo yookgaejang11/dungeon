@@ -144,6 +144,8 @@ public class GameManager : MonoBehaviour
 
     public static GameManager instance;
 
+    public int clearedStage = 0;
+
     private void Awake()
     {
         instance = this;

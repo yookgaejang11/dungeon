@@ -8,6 +8,9 @@ public class UIManager : MonoBehaviour
     public Player player;
     public RectTransform BaseSkill;
     public RectTransform SkillUI;
+    public Text statusTxt;
+    public Text DescText;
+
     private void Awake()
     {
         Instance = this;
@@ -22,7 +25,13 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        statusTxt.text = "Str: " + player.str + "->" + player.CurculateStr() +
+            "  Def: " + player.def + "->" + player.Curculatedef() + "\nSpd: " + player.spd + player.spd + "  crit: "
+            + player.crit + "->" + player.Curculatecrit() + "\nAvd: " + player.avd + "->" + player.Curculateavd();
+        if(player.selectedSkill.Length >0)
+        {
+            DescText.text = SkillData.skills[player.selectedSkill].desc;
+        }
     }
 
 
@@ -32,13 +41,16 @@ public class UIManager : MonoBehaviour
         {
             Destroy(SkillUI.GetChild(i).gameObject);
         }
-
-        foreach(string skillName in player.haveSkills)
+        for (int i = 0; i < player.haveSkills.Count; i++)
         {
-            RectTransform button = Instantiate(BaseSkill,SkillUI.transform);
-            button.GetComponent<Button>().onClick.AddListener(() => player.SkillSelect(skillName)); 
-            button.GetComponent<Text>().text = skillName;
+            int num = i;
+            RectTransform button = Instantiate(BaseSkill, SkillUI.transform);
+            
+            button.GetComponent<Button>().onClick.AddListener(() => player.SkillSelect(player.haveSkills[num]));
+            button.GetComponent<Text>().text = player.haveSkills[num];
+
         }
+
     }
 
 }

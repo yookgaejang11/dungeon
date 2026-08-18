@@ -22,7 +22,16 @@ public class Player : Unit
     public int curInven;
     public Slider hpSlider;
     public Text hpText;
+    public Slider mpSlider;
+    public Text mpText;
+    public GameObject SkillSelectObj;
+    public GameObject bagUI;
+    Animator animator;
 
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,6 +50,20 @@ public class Player : Unit
 
         hpSlider.maxValue = maxHp;
         hpSlider.value = curHp;
+        hpText.text = curHp + "/" + maxHp;
+
+
+        mpSlider.maxValue = maxMp;
+        mpSlider.value = curMp;
+        mpText.text = curMp + "/" + maxMp;
+
+
+        if(Input.GetKeyDown(KeyCode.Mouse1))
+        {
+            SkillSelectObj.SetActive(false);
+            bagUI.SetActive(false);
+            status = PlayerStatus.battle;
+        }
     }
 
     public void EquipItem(string itemName)
@@ -67,9 +90,11 @@ public class Player : Unit
             {
                 if(hit.collider.GetComponent<Enemy>() != null)
                 {
-                    Attack(this, hit.collider.GetComponent<Enemy>(), this.CurculateStr(),false);
+                    Debug.Log(this.CurculateStr());
+                    Attack(this, hit.collider.GetComponent<Enemy>(), 1,false);
                     status = PlayerStatus.battle;
                     actionCount -= 1;
+                    animator.SetTrigger("attack");
                 } 
             }
 
@@ -95,6 +120,7 @@ public class Player : Unit
                         {
                             UseSkill(selectedSkill, this, hit.collider.GetComponent<Enemy>(), TurnManager.instance.mobList.Cast<Unit>().ToList());
                             status = PlayerStatus.battle;
+                            animator.SetTrigger("skill");
                         }
                     }
                 }
@@ -121,6 +147,7 @@ public class Player : Unit
         if (TurnManager.instance.turnUnit == this)
         {
             //스킬 창 열기
+            SkillSelectObj.SetActive(true);
         }
     }
 

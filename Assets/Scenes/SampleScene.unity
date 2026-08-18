@@ -1633,12 +1633,18 @@ MonoBehaviour:
   crit: 0
   avd: 0
   isDefence: 0
-  maxInven: 6
-  curInven: 0
+  EquipedWeapon: 
+  EquipedEquipment: 
   isDead: 0
   haveSkills: []
   actionCount: 1
   attackedDmg: 0
+  status: 0
+  selectedSkill: 
+  maxInven: 6
+  curInven: 0
+  hpSlider: {fileID: 0}
+  hpText: {fileID: 0}
 --- !u!61 &1635384208
 BoxCollider2D:
   m_ObjectHideFlags: 0

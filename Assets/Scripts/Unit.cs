@@ -48,7 +48,7 @@ public class Unit : MonoBehaviour
             curHp = 0;
             isDead = true;
         }
-
+        Debug.Log("asf");
     }
 
     public void Heal(float value)
@@ -97,19 +97,19 @@ public class Unit : MonoBehaviour
         float defence = dmg * (1 - target.Curculatedef() / 100f);
 
         dmg = Mathf.Max(defence, dmg * 0.1f);
-
-        if(target.isDefence)
+        Debug.Log(dmg);
+        if (target.isDefence)
         {
-            dmg *= 1 - ((50 + target.curLevel * 3) / 100f);  
+            dmg *= (1 - ((50 + target.curLevel * 3) / 100f));  
         }
-
-        if(dmg <0)
+        Debug.Log(dmg);
+        if (dmg <0)
         {
             dmg = 0;
         }
 
         attackedDmg = dmg;
-
+        
         target.SetHp(dmg);
 
     }
@@ -151,11 +151,11 @@ public class Unit : MonoBehaviour
     public float CurculateStr()
     {
         float sum = str;
-        if(EquipedWeapon != null || EquipedWeapon.Length > 0)
+        if(EquipedWeapon.Length > 0)
         {
             sum += EquipmentData.equipments[EquipedWeapon].atk;
         }
-         sum *= GetBuff(effectType.strUp);
+         sum += sum * GetBuff(effectType.strUp);
 
         return sum;
     }
@@ -164,11 +164,11 @@ public class Unit : MonoBehaviour
     {
 
         float sum = def;
-        if (EquipedWeapon != null || EquipedWeapon.Length > 0)
+        if (EquipedWeapon.Length > 0)
         {
             sum += EquipmentData.equipments[EquipedWeapon].def;
         }
-        sum *= GetBuff(effectType.defUp);
+        sum += def * GetBuff(effectType.defUp);
         return sum;
     }
 
@@ -176,7 +176,7 @@ public class Unit : MonoBehaviour
     {
 
         float sum = crit;
-        if (EquipedWeapon != null || EquipedWeapon.Length > 0)
+        if (EquipedWeapon.Length > 0)
         {
             sum += EquipmentData.equipments[EquipedWeapon].crit;
         }
@@ -187,7 +187,16 @@ public class Unit : MonoBehaviour
 
     public float Curculateavd()
     {
-        return avd * GetBuff(effectType.avdUp);
+        float val = GetBuff(effectType.avdUp);
+        
+        if(val == 0)
+        {
+            return avd;
+        }
+        else
+        {
+            return avd * val;
+        }
     }
 
     public float CulcurlateDmg(float dmg)

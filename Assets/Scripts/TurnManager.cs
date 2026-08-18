@@ -11,7 +11,7 @@ public class TurnManager : MonoBehaviour
     public Player player;
     public List<Enemy> mobList = new();
 
-    List<Unit> units = new List<Unit>();
+    public List<Unit> units = new List<Unit>();
 
     public List<GameObject> mobSpawnPoint;
 
@@ -24,6 +24,12 @@ public class TurnManager : MonoBehaviour
     public void StartBattle(List<Enemy> enemyList)
     {
         mobList = enemyList;
+        for (int i = 0; i < mobList.Count; i++)
+        {
+            Instantiate(mobList[i].gameObject,mobSpawnPoint[i].transform);
+        }
+
+
         StartPhase();
     }
 
@@ -64,13 +70,16 @@ public class TurnManager : MonoBehaviour
         {
             if (units.IndexOf(turnUnit) + 1 >= units.Count)
             {
+                Debug.Log("tlqkf");
                 turnUnit = units[0];
                 NextPhase();
                 return;
             }
             else
             {
+                Debug.Log("rotlqkf");
                 turnUnit = units[units.IndexOf(turnUnit) + 1];
+                
             }
           
         }
@@ -81,6 +90,7 @@ public class TurnManager : MonoBehaviour
     {
         if (turnUnit.isDead) { NextTurn(); return; }
         if (turnUnit.IsStun()) { NextTurn(); return; }
+        if(turnUnit.actionCount == 0) { NextTurn(); return; }
 
         if (turnUnit.gameObject.GetComponent<Enemy>())
         {
@@ -94,10 +104,14 @@ public class TurnManager : MonoBehaviour
 
     public void NextPhase()
     {
+        Debug.Log("daf");
         foreach(Unit unit in units)
         {
             unit.effectCoolTime();
             unit.SkillCoolTime();
+
+            unit.actionCount = 1;
+            Debug.Log(unit.actionCount);
         }
 
 
@@ -108,11 +122,14 @@ public class TurnManager : MonoBehaviour
             if(enemy.isDefence)
             {
                 enemy.spd -= 99;
+                enemy.shildUI.SetActive(false);
+                enemy.isDefence = false;
             }
             if(enemy.act == ActStatus.Defence)
             {
                 enemy.spd += 99;
                 enemy.shildUI.SetActive(true);
+                enemy.isDefence = true ;
             }
             if (enemy.act == ActStatus.UseSkill && enemy.SelectedSkill == "ÆÄ±«±¤¼±")
             {
