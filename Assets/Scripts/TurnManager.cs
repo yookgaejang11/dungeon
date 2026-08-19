@@ -70,14 +70,12 @@ public class TurnManager : MonoBehaviour
         {
             if (units.IndexOf(turnUnit) + 1 >= units.Count)
             {
-                Debug.Log("tlqkf");
                 turnUnit = units[0];
                 NextPhase();
                 return;
             }
             else
             {
-                Debug.Log("rotlqkf");
                 turnUnit = units[units.IndexOf(turnUnit) + 1];
                 
             }

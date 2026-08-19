@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1042867670421018065
 RectTransform:
   m_ObjectHideFlags: 0
@@ -132,7 +132,7 @@ MonoBehaviour:
   curMp: 0
   str: 10
   def: 0
-  spd: 602
+  spd: 800
   crit: 0
   avd: 0
   isDefence: 0
@@ -141,7 +141,7 @@ MonoBehaviour:
   isDead: 0
   haveSkills: []
   actionCount: 0
-  attackedDmg: 90
+  attackedDmg: 9
   act: 0
   SelectedSkill: 
   shildUI: {fileID: 5396920901919361729}

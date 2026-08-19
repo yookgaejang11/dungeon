@@ -41,6 +41,8 @@ public class Item
         this.value = value;
         this.maxCount = maxCount;
         this.price = price;
+
+        
     }
 }
 

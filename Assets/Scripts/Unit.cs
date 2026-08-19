@@ -59,6 +59,14 @@ public class Unit : MonoBehaviour
             curHp = maxHp;
         }
     }   
+    public void HealMp(float value)
+    {
+        curMp += value;
+        if(curMp > maxMp)
+        {
+            curMp = maxMp;
+        }
+    }   
 
     public bool isSkillReady(string name)
     {

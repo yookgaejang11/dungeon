@@ -15,7 +15,7 @@ public enum PlayerStatus
 
 public class Player : Unit
 {
-    public Dictionary<string, int> invenValue;
+    public Dictionary<string, int> invenValue = new();
     public PlayerStatus status;
     public string selectedSkill;
     public int maxInven = 6;
@@ -26,6 +26,7 @@ public class Player : Unit
     public Text mpText;
     public GameObject SkillSelectObj;
     public GameObject bagUI;
+    public string selectedItem;
     Animator animator;
 
     private void Awake()
@@ -35,7 +36,7 @@ public class Player : Unit
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        invenValue.Add("힘의 영약", 1);
     }
 
     // Update is called once per frame
@@ -102,6 +103,44 @@ public class Player : Unit
         }
     }
 
+    public void SelectPotion(string value)
+    {
+        if (value == selectedItem)
+        {
+            UsePotion(selectedItem);
+        }
+        else
+        {
+            selectedItem = value;
+        }
+    }
+
+
+    public void UsePotion(string value)
+    {
+        switch(value)
+        {
+            case "빨간 포션":
+                Heal(maxHp * 0.2f);
+                break;
+            case "파란 포션":
+                HealMp(maxMp * 0.2f);
+                break;
+            case "힘의 영약":
+                effects.Add(new effect(effectType.strUp, 0.3f, 5));
+                break;
+            case "지식의 영약":
+                effects.Add(new effect(effectType.skillDmgUp, 0.3f, 5));
+                break;
+            case "회피의 물약":
+                effects.Add(new effect(effectType.avdUp, 2, 5));
+                break;
+
+
+
+        }
+    }
+
     public void SkillSelectTarget()
     {
         if (status != PlayerStatus.useSkill) { return; }
@@ -127,11 +166,14 @@ public class Player : Unit
                 break;
             default:
                 UseSkill(selectedSkill,this, null, TurnManager.instance.mobList.Cast<Unit>().ToList());
+                animator.SetTrigger("skill");
                 break;
         }
 
+        SkillSelectObj.SetActive(false);
+        bagUI.SetActive(false);
+        status = PlayerStatus.battle;
 
-       
     }
 
 
